@@ -307,6 +307,79 @@
   }
 }
 
+/* PROJECTS SECTION */
+    .projects-grid-wrap {
+      width: 100%; max-width: 560px; 
+    }
+    .projects-eyebrow {
+      display: flex; align-items: center; gap: 12px; justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 14px; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase;
+      padding: 1.6rem 0 1.8rem;
+    }
+    .proj-line { flex: 1; max-width: 60px; height: 1px; background: var(--border); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      width: 100%;
+      max-width: 900px;
+      margin: 32px auto;
+    }
+
+    .proj-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.4rem;
+      display: flex; flex-direction: column; justify-content: space-between;
+      gap: 1rem;
+      transition: border-color 0.2s, transform 0.2s;
+      backdrop-filter: blur(10px);
+    }
+    .proj-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-3px);
+    }
+    [data-theme="light"] .proj-card { background: rgba(255,255,255,0.75); }
+
+    .proj-top { display: flex; flex-direction: column; gap: 0.7rem; }
+    .proj-header { display: flex; justify-content: space-between; align-items: center; }
+    .proj-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px; color: var(--muted); opacity: 0.5; letter-spacing: 0.1em;
+    }
+    .proj-status {
+      font-family: 'Space Mono', monospace;
+      font-size: 8px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 100px; border: 1px solid;
+    }
+    .status-building { color: var(--amber); border-color: color-mix(in srgb, var(--amber) 45%, transparent); }
+    .status-soon     { color: var(--muted); border-color: var(--border); opacity: 0.6; }
+
+    .proj-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+      font-weight: 700; color: var(--text);
+      letter-spacing: -0.02em; line-height: 1;
+    }
+    .proj-dot { color: var(--teal); }
+
+    .proj-desc {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px; font-weight: 300;
+      color: var(--muted); line-height: 1.7;
+    }
+
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+    .ptag {
+      font-family: 'Space Mono', monospace; font-size: 8px;
+      color: var(--teal); border: 1px solid color-mix(in srgb, var(--teal) 40%, transparent);
+      border-radius: 4px; padding: 3px 8px; letter-spacing: 0.03em; line-height: 1;
+    }
+    
+
     /* FOOTER */
     .foot {
       position: relative; z-index: 10;
