@@ -3,10 +3,265 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Miguel Pantigoso</title>
+  <title>Miguel Pantigoso · Product Designer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="index.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #0E2C40;
+      --surface:   rgba(255,255,255,0.06);
+      --border:    rgba(255,255,255,0.10);
+      --text:      #f0ede8;
+      --muted:     rgba(240,237,232,0.50);
+      --teal:      #148D8D;
+      --mint:      #C1E1A7;
+      --amber:     #EFBC75;
+    }
+    [data-theme="light"] {
+      --bg:        #f4f1eb;
+      --surface:   rgba(255,255,255,0.80);
+      --border:    rgba(14,44,64,0.13);
+      --text:      #0E2C40;
+      --muted:     rgba(14,44,64,0.50);
+      --teal:      #0f6b6b;
+      --mint:      #3a7a28;
+      --amber:     #a06020;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.4s, color 0.4s;
+    }
+
+    .screen { min-height: 100vh; display: flex; flex-direction: column; position: relative; overflow-x: hidden; }
+
+    /* BLOBS */
+    .blob { position: fixed; border-radius: 50%; filter: blur(90px); pointer-events: none; z-index: 0; }
+    .blob1 { width: 50vw; height: 50vw; background: #148D8D; top: -15vw; right: -10vw; opacity: 0.07; }
+    .blob2 { width: 35vw; height: 35vw; background: #C1E1A7; bottom: 0; left: -8vw; opacity: 0.06; }
+    .blob3 { width: 25vw; height: 25vw; background: #EFBC75; bottom: 25%; right: 8%; opacity: 0.04; }
+
+    /* NAV */
+    .nav {
+      position: relative; z-index: 10;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 5vw;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap; gap: 10px;
+    }
+    .nav-logo {
+      width: 40px; height: 40px; background: var(--teal);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; color: #fff;
+    }
+    .nav-center { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .live-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid var(--border); border-radius: 100px;
+      font-family: 'Space Mono', monospace; font-size: 9px; color: var(--mint);
+      padding: 5px 14px; letter-spacing: 0.06em;
+    }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--mint); animation: blink 2s infinite; flex-shrink: 0; }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+    .toggle {
+      width: 50px; height: 28px; background: rgba(255,255,255,0.08);
+      border: 1px solid var(--border); border-radius: 100px;
+      cursor: pointer; position: relative; flex-shrink: 0;
+    }
+    .toggle-knob {
+      position: absolute; top: 4px; left: 4px;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--teal); transition: transform 0.3s;
+      display: flex; align-items: center; justify-content: center; font-size: 10px;
+    }
+    [data-theme="light"] .toggle-knob { transform: translateX(22px); }
+
+    /* HERO */
+    .center {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 4rem 5vw 4rem;
+      position: relative; z-index: 2;
+    }
+
+    .eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px; color: var(--teal);
+      letter-spacing: 0.22em; text-transform: uppercase;
+      margin-bottom: 2rem;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .eyebrow::before, .eyebrow::after { content: ''; display: block; width: 32px; height: 1px; background: var(--teal); opacity: 0.5; }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 10vw, 9rem);
+      font-weight: 900; line-height: 1.0; letter-spacing: -0.02em;
+      color: var(--text); margin-bottom: 0.2em;
+    }
+    h1 .italic { font-style: italic; color: var(--amber); }
+    h1 .ghost { display: block; color: transparent; -webkit-text-stroke: 1.5px var(--text); opacity: 0.2; }
+
+    .subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: clamp(15px, 2.2vw, 19px);
+      font-weight: 300; color: var(--muted); line-height: 1.75;
+      max-width: 600px; margin: 1.8rem auto 0;
+    }
+    .subtitle strong { color: var(--text); font-weight: 500; }
+
+    /* SECTION LABEL */
+    .section-label {
+      display: flex; align-items: center; gap: 14px; justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 10px; color: var(--muted); letter-spacing: 0.22em; text-transform: uppercase;
+      margin: 3.5rem 0 2rem; width: 100%;
+    }
+    .section-label::before, .section-label::after { content: ''; flex: 1; max-width: 80px; height: 1px; background: var(--border); }
+
+    /* PROJECTS */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      width: 100%; max-width: 1000px;
+      margin: 0 auto 3.5rem;
+    }
+
+    .proj-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.6rem;
+      display: flex; flex-direction: column; justify-content: space-between;
+      gap: 1.2rem; text-align: left;
+      transition: border-color 0.2s, transform 0.2s;
+      backdrop-filter: blur(12px);
+    }
+    .proj-card:hover { border-color: var(--teal); transform: translateY(-4px); }
+    [data-theme="light"] .proj-card { background: rgba(255,255,255,0.80); }
+
+    .proj-top { display: flex; flex-direction: column; gap: 0.8rem; }
+    .proj-header { display: flex; justify-content: space-between; align-items: center; }
+    .proj-num { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); opacity: 0.5; }
+    .proj-status {
+      font-family: 'Space Mono', monospace; font-size: 8px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 100px; border: 1px solid;
+    }
+    .status-building { color: var(--amber); border-color: color-mix(in srgb, var(--amber) 50%, transparent); }
+    .status-soon { color: var(--muted); border-color: var(--border); }
+
+    .proj-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+      font-weight: 700; color: var(--text); letter-spacing: -0.02em; line-height: 1.1;
+    }
+    .proj-dot { color: var(--teal); }
+    .proj-desc { font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 300; color: var(--muted); line-height: 1.75; }
+
+    .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .ptag {
+      font-family: 'Space Mono', monospace; font-size: 9px;
+      color: var(--teal); border: 1px solid color-mix(in srgb, var(--teal) 45%, transparent);
+      border-radius: 4px; padding: 4px 9px; letter-spacing: 0.03em; line-height: 1;
+    }
+
+    /* CONTENT COL */
+    .content-col {
+      display: flex; flex-direction: column; align-items: center;
+      width: 100%; max-width: 700px; margin: 0 auto;
+    }
+
+    /* TAGS */
+    .tags { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; margin-bottom: 2rem; width: 100%; }
+    .tag {
+      font-family: 'Space Mono', monospace; font-size: 11px;
+      background: transparent; border-radius: 5px; padding: 6px 13px; letter-spacing: 0.04em; line-height: 1;
+    }
+    .t1 { color: var(--mint);  border: 1px solid color-mix(in srgb, var(--mint)  50%, transparent); }
+    .t2 { color: var(--teal);  border: 1px solid color-mix(in srgb, var(--teal)  60%, transparent); }
+    .t3 { color: var(--amber); border: 1px solid color-mix(in srgb, var(--amber) 50%, transparent); }
+
+    /* PROGRESS */
+    .prog-wrap {
+      background: rgba(255,255,255,0.07); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.8rem 2.2rem;
+      width: 100%; margin-bottom: 2rem; backdrop-filter: blur(12px);
+    }
+    [data-theme="light"] .prog-wrap { background: rgba(255,255,255,0.85); }
+
+    .prog-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1rem; }
+    .prog-label { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+    .prog-num { font-family: 'Playfair Display', serif; font-size: 3.2rem; font-weight: 700; color: var(--amber); line-height: 1; }
+    .prog-num sup { font-family: 'DM Sans', sans-serif; font-size: 1rem; font-weight: 300; color: var(--muted); vertical-align: super; }
+
+    .track { width: 100%; height: 7px; background: var(--border); border-radius: 100px; overflow: hidden; margin-bottom: 7px; }
+    .fill { height: 100%; background: var(--teal); width: 0%; position: relative; transition: width 0.05s; border-radius: 100px; }
+    .fill::after { content: ''; position: absolute; right: -1px; top: -1px; bottom: -1px; width: 13px; background: var(--mint); border-radius: 100px; }
+
+    .prog-meta { display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 10px; margin-bottom: 14px; }
+    .prog-stage { color: var(--teal); }
+    .prog-pct-txt { color: var(--muted); opacity: 0.5; }
+
+    .steps { display: flex; gap: 4px; margin-bottom: 6px; }
+    .step { flex: 1; height: 4px; background: var(--border); border-radius: 100px; transition: background 0.3s; }
+    .step.done   { background: var(--teal); }
+    .step.active { background: var(--mint); animation: ps 2s infinite; }
+    @keyframes ps { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+
+    .step-lbls { display: flex; gap: 4px; }
+    .slbl { flex: 1; font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); text-align: center; text-transform: uppercase; opacity: 0.5; }
+    .slbl.done   { color: var(--teal); opacity: 1; }
+    .slbl.active { color: var(--mint); font-weight: 700; opacity: 1; }
+
+    /* BUTTONS */
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; width: 100%; }
+    .btn {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase;
+      padding: 10px 18px; text-decoration: none; cursor: pointer; border-radius: 8px;
+      display: inline-flex; align-items: center; gap: 9px;
+      transition: all 0.2s; background: transparent; line-height: 1;
+    }
+    .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+    .btn-wsp { color: var(--mint); border: 1.5px solid color-mix(in srgb, var(--mint) 50%, transparent); }
+    .btn-wsp:hover { background: var(--mint); color: var(--bg); }
+    .btn-wsp:hover .wp { fill: var(--bg); }
+    .wp { fill: var(--mint); transition: fill 0.2s; }
+    .btn-li { color: var(--amber); border: 1.5px solid color-mix(in srgb, var(--amber) 50%, transparent); }
+    .btn-li:hover { background: var(--amber); color: var(--bg); }
+    .btn-li:hover .lp { fill: var(--bg); }
+    .lp { fill: var(--amber); transition: fill 0.2s; }
+
+    /* FOOTER */
+    .foot {
+      position: relative; z-index: 10;
+      border-top: 1px solid var(--border);
+      padding: 1rem 5vw;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;
+    }
+    .foot span { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); opacity: 0.5; letter-spacing: 0.1em; text-transform: uppercase; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .projects-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 580px) {
+      .projects-grid { grid-template-columns: 1fr !important; }
+      .nav-center { display: none; }
+      h1 { font-size: clamp(3rem, 15vw, 5rem); }
+      .subtitle { font-size: 15px; }
+      .center { padding: 3rem 5vw 2rem; }
+      .btn-row { flex-direction: column; }
+      .btn { justify-content: center; }
+    }
+  </style>
 </head>
 <body>
 <div class="screen">
@@ -14,20 +269,19 @@
   <div class="blob blob2"></div>
   <div class="blob blob3"></div>
 
-  <!-- NAV -->
   <nav class="nav">
     <div class="nav-logo">JM</div>
     <span class="nav-center">miguepantigoso@gmail.com</span>
     <div class="nav-right">
       <span class="live-pill"><span class="dot"></span>v2.0 deploying</span>
-      <div class="toggle" id="themeToggle" onclick="toggleTheme()" title="Toggle mode">
+      <div class="toggle" onclick="toggleTheme()" title="Toggle mode">
         <div class="toggle-knob" id="knob">☾</div>
       </div>
     </div>
   </nav>
 
-  <!-- CENTER -->
   <main class="center">
+
     <div class="eyebrow">UX/UI Product Designer · Perú</div>
 
     <h1>
@@ -37,18 +291,11 @@
     </h1>
 
     <p class="subtitle">
-      Nada aquí es casual.
-      Cada proyecto está siendo replanteado, cuestionado y mejorado desde la raíz.
-      Estoy construyendo un portfolio con intención real.
-      <strong>Muy pronto.</strong>
+      Nada aquí es casual. Cada proyecto está siendo replanteado, cuestionado y mejorado desde la raíz. Estoy construyendo un portfolio con intención real. <strong>Muy pronto.</strong>
     </p>
 
-    <!-- PROJECTS inside main -->
-    <div class="projects-eyebrow">
-      <span class="proj-line"></span>
-      En lo que estoy trabajando
-      <span class="proj-line"></span>
-    </div>
+    <div class="section-label">En lo que estoy trabajando</div>
+
     <div class="projects-grid">
       <div class="proj-card">
         <div class="proj-top">
@@ -66,6 +313,7 @@
           <span class="ptag">Artesanía</span>
         </div>
       </div>
+
       <div class="proj-card">
         <div class="proj-top">
           <div class="proj-header">
@@ -82,6 +330,7 @@
           <span class="ptag">Smart City</span>
         </div>
       </div>
+
       <div class="proj-card">
         <div class="proj-top">
           <div class="proj-header">
@@ -98,63 +347,60 @@
           <span class="ptag">Gig Economy</span>
         </div>
       </div>
-
     </div>
-    
+
     <div class="content-col">
-    <div class="tags">
-      <span class="tag t1">Figma</span>
-      <span class="tag t1">Product Design</span>
-      <span class="tag t2">Data</span>
-      <span class="tag t2">Prototyping</span>
-      <span class="tag t3">Design System</span>
-      <span class="tag t1">Product Thinking</span>
-      <span class="tag t3">Design Thinking</span>
+      <div class="tags">
+        <span class="tag t1">Figma</span>
+        <span class="tag t1">Product Design</span>
+        <span class="tag t2">Data</span>
+        <span class="tag t2">Prototyping</span>
+        <span class="tag t3">Design System</span>
+        <span class="tag t1">Product Thinking</span>
+        <span class="tag t3">Design Thinking</span>
+      </div>
+
+      <div class="prog-wrap">
+        <div class="prog-top">
+          <span class="prog-label">// portfolio v2.0</span>
+          <span class="prog-num" id="numDisplay">0<sup>%</sup></span>
+        </div>
+        <div class="track"><div class="fill" id="loaderFill"></div></div>
+        <div class="prog-meta">
+          <span class="prog-stage" id="loaderStage">initializing...</span>
+          <span class="prog-pct-txt" id="loaderPct">0%</span>
+        </div>
+        <div class="steps">
+          <div class="step" id="s0"></div><div class="step" id="s1"></div>
+          <div class="step" id="s2"></div><div class="step" id="s3"></div>
+          <div class="step" id="s4"></div>
+        </div>
+        <div class="step-lbls">
+          <span class="slbl" id="l0">figma</span>
+          <span class="slbl" id="l1">flows</span>
+          <span class="slbl" id="l2">visual</span>
+          <span class="slbl" id="l3">cases</span>
+          <span class="slbl" id="l4">deploy</span>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <a class="btn btn-wsp" href="https://wa.me/51922801666?text=Hola%20Miguel%2C%20vi%20tu%20portfolio%20y%20me%20gustar%C3%ADa%20conversar%20contigo." target="_blank">
+          <svg viewBox="0 0 24 24"><path class="wp" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path class="wp" d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.862L.054 23.454a.75.75 0 0 0 .918.919l5.655-1.479A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.725 9.725 0 0 1-4.953-1.355l-.355-.211-3.676.961.981-3.585-.231-.368A9.712 9.712 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
+          WhatsApp
+        </a>
+        <a class="btn btn-li" href="https://www.linkedin.com/in/miguelpantigoso/" target="_blank">
+          <svg viewBox="0 0 24 24"><path class="lp" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+      </div>
     </div>
 
-    <div class="prog-wrap">
-      <div class="prog-top">
-        <span class="prog-label">// portfolio v2.0</span>
-        <span class="prog-num" id="numDisplay">0<sup>%</sup></span>
-      </div>
-      <div class="track"><div class="fill" id="loaderFill"></div></div>
-      <div class="prog-meta">
-        <span class="prog-stage" id="loaderStage">initializing...</span>
-        <span class="prog-pct-txt" id="loaderPct">0%</span>
-      </div>
-      <div class="steps">
-        <div class="step" id="s0"></div>
-        <div class="step" id="s1"></div>
-        <div class="step" id="s2"></div>
-        <div class="step" id="s3"></div>
-        <div class="step" id="s4"></div>
-      </div>
-      <div class="step-lbls">
-        <span class="slbl" id="l0">figma</span>
-        <span class="slbl" id="l1">flows</span>
-        <span class="slbl" id="l2">visual</span>
-        <span class="slbl" id="l3">cases</span>
-        <span class="slbl" id="l4">deploy</span>
-      </div>
-    </div>
-
-    <div class="btn-row">
-      <a class="btn btn-wsp" href="https://wa.me/51922801666?text=Hola%20Miguel%2C%20vi%20tu%20portfolio%20y%20me%20gustar%C3%ADa%20conversar%20contigo." target="_blank">
-        <svg viewBox="0 0 24 24"><path class="wp" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path class="wp" d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.862L.054 23.454a.75.75 0 0 0 .918.919l5.655-1.479A11.943 11.943 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.725 9.725 0 0 1-4.953-1.355l-.355-.211-3.676.961.981-3.585-.231-.368A9.712 9.712 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
-        WhatsApp
-      </a>
-      <a class="btn btn-li" href="https://www.linkedin.com/in/miguelpantigoso/" target="_blank">
-        <svg viewBox="0 0 24 24"><path class="lp" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        LinkedIn
-      </a>
-    </div>
-    </div>
   </main>
 
-  <!-- FOOTER -->
   <footer class="foot">
     <span>© 2026 Miguel Pantigoso</span>
-    <span>miguepantigoso.github.io</span>
+    <span>miguelpantigoso.github.io</span>
   </footer>
 </div>
 
@@ -163,14 +409,11 @@
     var html = document.documentElement;
     var knob = document.getElementById('knob');
     if (html.getAttribute('data-theme') === 'dark') {
-      html.setAttribute('data-theme', 'light');
-      knob.textContent = '☀';
+      html.setAttribute('data-theme', 'light'); knob.textContent = '☀';
     } else {
-      html.setAttribute('data-theme', 'dark');
-      knob.textContent = '☾';
+      html.setAttribute('data-theme', 'dark'); knob.textContent = '☾';
     }
   }
-
   const TARGET = 70;
   const stages = [
     { pct: 1,  label: 'initializing...' },
@@ -180,31 +423,13 @@
     { pct: 70, label: 'writing case studies...' },
   ];
   let current = 0;
-  const fill = document.getElementById('loaderFill');
-  const num  = document.getElementById('numDisplay');
-  const sLbl = document.getElementById('loaderStage');
-  const pTxt = document.getElementById('loaderPct');
-
-  function getStage(p) {
-    for (var i = stages.length-1; i >= 0; i--) { if (p >= stages[i].pct) return stages[i].label; }
-    return 'initializing...';
-  }
-  function updateSteps(p) {
-    [20,40,60,70,100].forEach(function(v,i) {
-      var el=document.getElementById('s'+i), lb=document.getElementById('l'+i), nx=[20,40,60,70,100][i+1]||101;
-      if(p>=v){ if(p<nx&&i<4){el.className='step active';lb.className='slbl active';}else{el.className='step done';lb.className='slbl done';}}
-      else{el.className='step';lb.className='slbl';}
-    });
-  }
-  function tick() {
-    if(current<TARGET){current+=1;}else{current=0;}
-    var d=current<=TARGET?current:TARGET;
-    fill.style.width=d+'%'; num.innerHTML=d+'<sup>%</sup>';
-    pTxt.textContent=d+'%'; sLbl.textContent=getStage(d); updateSteps(d);
-    var delay=current===0?900:current<30?28:current<55?38:current<68?50:current<TARGET?70:1200;
-    setTimeout(tick,delay);
-  }
+  const fill=document.getElementById('loaderFill'), num=document.getElementById('numDisplay'),
+        sLbl=document.getElementById('loaderStage'), pTxt=document.getElementById('loaderPct');
+  function getStage(p){for(var i=stages.length-1;i>=0;i--){if(p>=stages[i].pct)return stages[i].label;}return'initializing...';}
+  function updateSteps(p){[20,40,60,70,100].forEach(function(v,i){var el=document.getElementById('s'+i),lb=document.getElementById('l'+i),nx=[20,40,60,70,100][i+1]||101;if(p>=v){if(p<nx&&i<4){el.className='step active';lb.className='slbl active';}else{el.className='step done';lb.className='slbl done';}}else{el.className='step';lb.className='slbl';}});}
+  function tick(){if(current<TARGET){current+=1;}else{current=0;}var d=current<=TARGET?current:TARGET;fill.style.width=d+'%';num.innerHTML=d+'<sup>%</sup>';pTxt.textContent=d+'%';sLbl.textContent=getStage(d);updateSteps(d);var delay=current===0?900:current<30?28:current<55?38:current<68?50:current<TARGET?70:1200;setTimeout(tick,delay);}
   setTimeout(tick,600);
 </script>
 </body>
 </html>
+Listo
